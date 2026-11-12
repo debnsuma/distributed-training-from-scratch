@@ -1,0 +1,42 @@
+[project]
+name = "distributed-training-from-scratch"
+version = "0.1.0"
+description = "A hands-on course on distributed LLM training, built from first principles"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.6",
+    "torchvision>=0.21",
+    "transformers>=4.49",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "scipy>=1.13",
+    "ipykernel>=6.29",
+    "jupyterlab>=4.2",
+    "nbformat>=5.10",
+    "nbconvert>=7.16",
+    "nbclient>=0.10",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8.3",
+]
+
+[tool.ruff]
+line-length = 100
+# Notebooks carry %%writefile cells, where the body is a script rather than
+# part of the notebook's own scope, so ruff's name resolution does not apply.
+extend-exclude = ["*.ipynb", "**/scratch-*"]
+
+[tool.ruff.lint]
+# Pin the rule set so a ruff upgrade cannot fail the build on new defaults.
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# The diagram scripts put their own directory on sys.path before importing
+# sibling modules, which is exactly what E402 complains about.
+"scripts/diagrams/*.py" = ["E402"]
+"scripts/build_authored_notebooks.py" = ["E402"]
